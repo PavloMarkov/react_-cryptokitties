@@ -35,21 +35,22 @@ export const MainContent: React.FC = () => {
       .finally(() => setIsListOfCatsLoading(false));
   }, []);
 
-  const handlePageClick = (e: Page) => {
-    console.log(e);
-
-    setCurrentPage(e.selected);
+  useEffect(() => {
     setIsListOfCatsLoading(true);
-    client.getPaginated<Response>(`?limit_per_page=${catsPerPage}&current_page=${currentPage + 1}`)
-      .then(res => setListOfCats(res.cats))
+    client.getPaginated<Response>(`?per_page=${catsPerPage}&page=${currentPage + 1}`)
+      .then(res => {
+        setListOfCats(res.cats);
+      })
       .finally(() => setIsListOfCatsLoading(false));
+  }, [currentPage]);
+
+  const handlePageClick = (e: Page) => {
+    setCurrentPage(e.selected);
   };
 
   const addCats = (newCats: CatCard[]) => {
     setListOfCats(prev => [...prev, ...newCats]);
   };
-
-  const addNextPageData = () => setCurrentPage(prev => prev + 1);
 
   return (
     <main className="page__main">
@@ -125,6 +126,7 @@ export const MainContent: React.FC = () => {
               onPageChange={handlePageClick}
               pageRangeDisplayed={3}
               marginPagesDisplayed={1}
+              forcePage={currentPage}
               pageCount={pageCount}
               containerClassName="pagination__container"
               previousLinkClassName="pagination__previous"
@@ -141,7 +143,6 @@ export const MainContent: React.FC = () => {
               hasMore={pageCount > currentPage}
               catsPerPage={catsPerPage}
               addCats={addCats}
-              nextPage={addNextPageData}
             />
           </>
         )

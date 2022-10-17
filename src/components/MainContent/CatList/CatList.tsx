@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Response } from '../../../types/Response';
 import { client } from '../../../api/cat';
@@ -11,19 +11,24 @@ type Props = {
   hasMore: boolean;
   catsPerPage: number;
   addCats: (cats: CatCard[]) => void;
-  nextPage: () => void;
 };
 
 export const CatList: React.FC<Props> = ({
-  list, pageStart, hasMore, catsPerPage, addCats, nextPage,
+  list,
+  pageStart,
+  hasMore,
+  catsPerPage,
+  // addCats,
 }) => {
-  const toShow = [...list];
+  const [addedPage, setAddedPage] = useState(pageStart + 1);
+  const [listOfCatsToShow, setListOfCatsToShow] = useState(list);
+
   const loadFunc = () => {
-    client.getPaginated<Response>(`?limit_per_page=${catsPerPage}&current_page=${pageStart + 2}`)
+    client.getPaginated<Response>(`?per_page=${catsPerPage}&page=${addedPage + 1}`)
       .then(res => {
-        addCats(res.cats);
-        nextPage();
-      });
+        setListOfCatsToShow(prev => [...prev, ...res.cats]);
+      })
+      .finally(() => setAddedPage(prevPage => prevPage + 1));
   };
 
   return (
@@ -33,8 +38,8 @@ export const CatList: React.FC<Props> = ({
       hasMore={hasMore}
       loader={<div className="loader" key={0}>Loading ...</div>}
     >
-      <section className="card-list page__list">
-        {toShow.map(card => (
+      <div className="card-list">
+        {listOfCatsToShow.map(card => (
           <div
             className="card"
             key={card.id}
@@ -47,7 +52,7 @@ export const CatList: React.FC<Props> = ({
                 </div>
                 <img
                   src={card.image_url}
-                  alt={card.name}
+                  alt={`Here should be cat ${card.name} & it's`}
                 />
                 <div className="card__price">{`${card.price}$`}</div>
               </div>
@@ -57,7 +62,7 @@ export const CatList: React.FC<Props> = ({
             </div>
           </div>
         ))}
-      </section>
+      </div>
     </InfiniteScroll>
   );
 };

@@ -12,6 +12,11 @@
     @media (max-width: 768px) {
       flex-direction: column;
     }
+
+    // & ul {
+    //   margin: 0;
+    //   list-style-type: none;
+    // }
   }
 
   &__sort {
