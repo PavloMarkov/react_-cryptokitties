@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "./static/css/main.67914fa9.chunk.css",
+    "main.js": "./static/js/main.e3486a19.chunk.js",
+    "main.js.map": "./static/js/main.e3486a19.chunk.js.map",
+    "runtime-main.js": "./static/js/runtime-main.8c9895b1.js",
+    "runtime-main.js.map": "./static/js/runtime-main.8c9895b1.js.map",
+    "static/js/2.792c1b7b.chunk.js": "./static/js/2.792c1b7b.chunk.js",
+    "static/js/2.792c1b7b.chunk.js.map": "./static/js/2.792c1b7b.chunk.js.map",
+    "index.html": "./index.html",
+    "static/css/main.67914fa9.chunk.css.map": "./static/css/main.67914fa9.chunk.css.map",
+    "static/js/2.792c1b7b.chunk.js.LICENSE.txt": "./static/js/2.792c1b7b.chunk.js.LICENSE.txt",
+    "static/media/CatList.scss": "./static/media/Price-Tag-PNG-Image.ea67bbaa.png",
+    "static/media/paw_loader.01294796.png": "./static/media/paw_loader.01294796.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.8c9895b1.js",
+    "static/js/2.792c1b7b.chunk.js",
+    "static/css/main.67914fa9.chunk.css",
+    "static/js/main.e3486a19.chunk.js"
+  ]
+}
