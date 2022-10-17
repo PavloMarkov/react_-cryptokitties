@@ -1,0 +1,29 @@
+.loader {
+  height: 95vh;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  letter-spacing: 2px;
+
+  @media (max-width: 760px) {
+    align-items: flex-start;
+  }
+
+  &__paw {
+    display: block;
+    width: 200px;
+    height: 200px;
+    animation: paw_rotate 6s linear infinite;
+  }
+}
+
+@keyframes paw_rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

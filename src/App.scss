@@ -1,3 +1,27 @@
-.starter {
-  font-size: 18px;
+.page {
+  min-height: 100vh;
+  position: relative;
+
+  &__main {
+    padding: 0 0 80px;
+    display: flex;
+    flex-direction: column;
+    background: rgb(213,254,255);
+    background: radial-gradient(circle, rgba(213,254,255,1) 4%, rgba(245,238,252,1) 100%);
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+
+  &__sort {
+    padding: 20px;
+    position: fixed;
+    top: 80px;
+    left: 0;
+
+    @media (max-width: 760px){
+      position: static;
+    }
+  }
 }
