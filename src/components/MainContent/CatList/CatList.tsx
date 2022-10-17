@@ -1,41 +1,36 @@
 import React, { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Response } from '../../../types/Response';
-import { client } from '../../../api/cat';
+import { client } from '../../../api/request';
 import { CatCard } from '../../../types/CatCard';
 import './CatList.scss';
+import { DataOfPage } from '../../../types/DataOfPage';
 
 type Props = {
   list: CatCard[];
-  pageStart: number;
-  hasMore: boolean;
-  catsPerPage: number;
-  addCats: (cats: CatCard[]) => void;
+  pageData: DataOfPage;
 };
 
 export const CatList: React.FC<Props> = ({
   list,
-  pageStart,
-  hasMore,
-  catsPerPage,
-  // addCats,
+  pageData,
 }) => {
-  const [addedPage, setAddedPage] = useState(pageStart + 1);
+  const [addedPage, setAddedPage] = useState(pageData.currentPage + 1);
   const [listOfCatsToShow, setListOfCatsToShow] = useState(list);
 
-  const loadFunc = () => {
-    client.getPaginated<Response>(`?per_page=${catsPerPage}&page=${addedPage + 1}`)
+  const loadMoreCats = () => {
+    client.getPaginated<Response>(`?per_page=${pageData.catsPerPage}&page=${addedPage + 1}&sort_by=${pageData.sortBy || 'id'}&sort_dir=${pageData.sortMethod || 'asc'}`)
       .then(res => {
         setListOfCatsToShow(prev => [...prev, ...res.cats]);
-      })
-      .finally(() => setAddedPage(prevPage => prevPage + 1));
+        setAddedPage(prevPage => prevPage + 1);
+      });
   };
 
   return (
     <InfiniteScroll
-      pageStart={pageStart}
-      loadMore={loadFunc}
-      hasMore={hasMore}
+      pageStart={pageData.currentPage}
+      loadMore={loadMoreCats}
+      hasMore={pageData.pageCount > addedPage}
       loader={<div className="loader" key={0}>Loading ...</div>}
     >
       <div className="card-list">

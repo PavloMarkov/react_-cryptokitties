@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
-import { client } from '../../api/cat';
+import { client } from '../../api/request';
 import { CatCard } from '../../types/CatCard';
 import { SortByField } from '../../types/SortByField';
 import { SortMethod } from '../../types/SortMethod';
@@ -10,17 +10,30 @@ import './MainContent.scss';
 import { Response } from '../../types/Response';
 import { Page } from '../../types/Page';
 import { CatList } from './CatList/CatList';
+import { DataOfPage } from '../../types/DataOfPage';
 
 export const MainContent: React.FC = () => {
+  const [isPageLoading, setIsPageLoading] = useState(true);
   const [isListOfCatsLoading, setIsListOfCatsLoading] = useState(false);
   const [listOfCats, setListOfCats] = useState<CatCard[]>([]);
 
-  const [sortMethod, setSordMethod] = useState<SortMethod>('');
-  const [sortBy, setSortBy] = useState<SortByField>(SortByField.NONE);
+  const [pageData, setPageData] = useState<DataOfPage>({
+    sortBy: SortByField.NONE,
+    sortMethod: '',
+    pageCount: 0,
+    catsPerPage: 50,
+    currentPage: 0,
+  });
 
-  const [pageCount, setPageCount] = useState(1);
-  const [catsPerPage, setCatsPerPage] = useState(50);
-  const [currentPage, setCurrentPage] = useState(0);
+  // const [sortMethod, setSordMethod] = useState<SortMethod>('');
+  // const [sortBy, setSortBy] = useState<SortByField>(SortByField.NONE);
+
+  // const [pageCount, setPageCount] = useState(0);
+  // const [catsPerPage, setCatsPerPage] = useState(50);
+  // const [currentPage, setCurrentPage] = useState(0);
+
+  const queryPaginationParams = `?page=${pageData.currentPage + 1}&per_page=${pageData.catsPerPage}`;
+  const searchSortParams = `&sort_by=${pageData.sortBy || 'id'}&sort_dir=${pageData.sortMethod || 'asc'}`;
 
   useEffect(() => {
     setIsListOfCatsLoading(true);
@@ -30,27 +43,57 @@ export const MainContent: React.FC = () => {
       .then(res => res.json())
       .then(res => {
         setListOfCats(res.cats);
-        setPageCount(res.pagination_info.total_pages);
+        setPageData(prev => ({
+          ...prev,
+          pageCount: res.pagination_info.total_pages,
+        }));
       })
-      .finally(() => setIsListOfCatsLoading(false));
+      .finally(() => {
+        setIsPageLoading(false);
+        setIsListOfCatsLoading(false);
+      });
   }, []);
 
   useEffect(() => {
-    setIsListOfCatsLoading(true);
-    client.getPaginated<Response>(`?per_page=${catsPerPage}&page=${currentPage + 1}`)
-      .then(res => {
-        setListOfCats(res.cats);
-      })
-      .finally(() => setIsListOfCatsLoading(false));
-  }, [currentPage]);
+    if (!isPageLoading) {
+      setIsListOfCatsLoading(true);
+      client.getPaginated<Response>(queryPaginationParams + searchSortParams)
+        .then(res => {
+          setListOfCats(res.cats);
+          setPageData(prev => ({
+            ...prev,
+            pageCount: res.pagination_info.total_pages,
+          }));
+        })
+        .finally(() => setIsListOfCatsLoading(false));
+    }
+  }, [pageData.currentPage]);
 
   const handlePageClick = (e: Page) => {
-    setCurrentPage(e.selected);
+    setPageData(prev => ({
+      ...prev,
+      currentPage: e.selected,
+    }));
   };
 
-  const addCats = (newCats: CatCard[]) => {
-    setListOfCats(prev => [...prev, ...newCats]);
+  const sortClickHandle = () => {
+    setIsListOfCatsLoading(true);
+    client.getSorted<Response>(`?${searchSortParams}`)
+      .then(res => {
+        setListOfCats(res.cats);
+        setPageData(prev => ({
+          ...prev,
+          currentPage: 0,
+          pageCount: res.pagination_info.total_pages,
+          catsPerPage: res.pagination_info.limit_per_page,
+        }));
+      })
+      .finally(() => setIsListOfCatsLoading(false));
   };
+
+  // const addCats = (newCats: CatCard[]) => {
+  //   setListOfCats(prevCats => [...prevCats, ...newCats]);
+  // };
 
   return (
     <main className="page__main">
@@ -60,9 +103,12 @@ export const MainContent: React.FC = () => {
             <section className="page__sort sort">
               <h4 className="sort__title">Sort by:</h4>
               <select
-                onChange={(e) => setSortBy(e.target.value as SortByField)}
+                onChange={(e) => setPageData(prev => ({
+                  ...prev,
+                  sortBy: e.target.value as SortByField,
+                }))}
                 className="sort__select"
-                value={sortBy}
+                value={pageData.sortBy}
               >
                 <option value={SortByField.NONE}>Need to sort?</option>
                 <option value={SortByField.ID}>ID</option>
@@ -71,9 +117,12 @@ export const MainContent: React.FC = () => {
                 <option value={SortByField.PRICE}>Price</option>
               </select>
               <select
-                onChange={(e) => setSordMethod(e.target.value as SortMethod)}
+                onChange={(e) => setPageData(prev => ({
+                  ...prev,
+                  sortMethod: e.target.value as SortMethod,
+                }))}
                 className="sort__select"
-                value={sortMethod}
+                value={pageData.sortMethod}
               >
                 <option value="">Sort type</option>
                 <option value="asc">asc</option>
@@ -82,12 +131,7 @@ export const MainContent: React.FC = () => {
               <button
                 type="button"
                 className="sort_btn"
-                onClick={() => {
-                  setIsListOfCatsLoading(true);
-                  client.getSorted<Response>(`?sort_by=${sortBy || 'id'}&sort_dir=${sortMethod || 'asc'}`)
-                    .then(res => setListOfCats(res.cats))
-                    .finally(() => setIsListOfCatsLoading(false));
-                }}
+                onClick={() => sortClickHandle()}
               >
                 Sort cats!
               </button>
@@ -95,10 +139,13 @@ export const MainContent: React.FC = () => {
                 Meow&apos;s per page
               </h4>
               <select
-                onChange={(e) => setCatsPerPage(+e.target.value)}
+                onChange={(e) => setPageData(prev => ({
+                  ...prev,
+                  catsPerPage: +e.target.value,
+                }))}
                 className="sort__select"
                 id="per-page"
-                value={catsPerPage}
+                value={pageData.catsPerPage}
               >
                 <option value={50}>50</option>
                 <option value={20}>20</option>
@@ -107,14 +154,10 @@ export const MainContent: React.FC = () => {
               <button
                 type="button"
                 className="pagination_btn"
-                onClick={() => {
-                  setCurrentPage(0);
-                  client.getPaginated<Response>(`?per_page=${catsPerPage}&page=${currentPage + 1}`)
-                    .then(res => {
-                      setListOfCats(res.cats);
-                      setPageCount(res.pagination_info.total_pages);
-                    });
-                }}
+                onClick={() => setPageData(prev => ({
+                  ...prev,
+                  currentPage: 0,
+                }))}
               >
                 View cats!
               </button>
@@ -126,8 +169,8 @@ export const MainContent: React.FC = () => {
               onPageChange={handlePageClick}
               pageRangeDisplayed={3}
               marginPagesDisplayed={1}
-              forcePage={currentPage}
-              pageCount={pageCount}
+              forcePage={pageData.currentPage}
+              pageCount={pageData.pageCount}
               containerClassName="pagination__container"
               previousLinkClassName="pagination__previous"
               breakClassName="pagination__page"
@@ -139,10 +182,8 @@ export const MainContent: React.FC = () => {
             />
             <CatList
               list={listOfCats}
-              pageStart={currentPage}
-              hasMore={pageCount > currentPage}
-              catsPerPage={catsPerPage}
-              addCats={addCats}
+              // addCats={addCats}
+              pageData={pageData}
             />
           </>
         )
