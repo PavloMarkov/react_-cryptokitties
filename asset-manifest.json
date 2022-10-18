@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "./static/css/main.60cf5259.chunk.css",
-    "main.js": "./static/js/main.52dc647d.chunk.js",
-    "main.js.map": "./static/js/main.52dc647d.chunk.js.map",
+    "main.css": "./static/css/main.31aa85e3.chunk.css",
+    "main.js": "./static/js/main.4fb7ac3c.chunk.js",
+    "main.js.map": "./static/js/main.4fb7ac3c.chunk.js.map",
     "runtime-main.js": "./static/js/runtime-main.8c9895b1.js",
     "runtime-main.js.map": "./static/js/runtime-main.8c9895b1.js.map",
     "static/js/2.b2f0661c.chunk.js": "./static/js/2.b2f0661c.chunk.js",
     "static/js/2.b2f0661c.chunk.js.map": "./static/js/2.b2f0661c.chunk.js.map",
     "index.html": "./index.html",
-    "static/css/main.60cf5259.chunk.css.map": "./static/css/main.60cf5259.chunk.css.map",
+    "static/css/main.31aa85e3.chunk.css.map": "./static/css/main.31aa85e3.chunk.css.map",
     "static/js/2.b2f0661c.chunk.js.LICENSE.txt": "./static/js/2.b2f0661c.chunk.js.LICENSE.txt",
     "static/media/CatList.scss": "./static/media/Price-Tag-PNG-Image.ea67bbaa.png",
     "static/media/defaultPick.474e7e3f.png": "./static/media/defaultPick.474e7e3f.png",
@@ -17,7 +17,7 @@
   "entrypoints": [
     "static/js/runtime-main.8c9895b1.js",
     "static/js/2.b2f0661c.chunk.js",
-    "static/css/main.60cf5259.chunk.css",
-    "static/js/main.52dc647d.chunk.js"
+    "static/css/main.31aa85e3.chunk.css",
+    "static/js/main.4fb7ac3c.chunk.js"
   ]
 }
