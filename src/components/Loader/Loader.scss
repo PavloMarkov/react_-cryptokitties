@@ -7,10 +7,6 @@
   align-items: center;
   letter-spacing: 2px;
 
-  @media (max-width: 760px) {
-    align-items: flex-start;
-  }
-
   &__paw {
     display: block;
     width: 200px;

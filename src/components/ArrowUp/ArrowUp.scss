@@ -1,0 +1,30 @@
+.arrow-up {
+  box-sizing: border-box;
+  position: fixed;
+  bottom: 70px;
+  right: 10px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid red;
+  background-color: transparent;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__arrow a {
+    display: block;
+    font-size: 30px;
+    color: red;
+    text-decoration: none;
+    @media (max-width: 550px) {
+      font-size: 20px;
+    }
+  }
+
+  @media (max-width: 550px) {
+    width: 30px;
+    height: 30px;
+  }
+}

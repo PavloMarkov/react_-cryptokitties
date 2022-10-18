@@ -1,16 +1,18 @@
 .card-list {
   margin: 0 auto;
   justify-content: flex-start;
+  justify-content: space-around;
+
   display: flex;
   gap: 40px;
-  padding: 40px 20px 40px 150px;
+  padding: 40px 60px;
   max-width: 1400px;
   flex-wrap: wrap;
 
-  @media (max-width: 760px) {
+  @media (max-width: 550px) {
     gap: 20px;
-    padding: 20px;
-    justify-content: center;
+    padding: 20px 50px 20px 20px;
+    justify-content: space-around;
   }
 }
 
@@ -35,6 +37,7 @@
   }
   &__img {
     position: relative;
+    // background-image: url('https://www.cryptokitties.co/images/ether-diamond.gif');
   }
 
   &__name {
@@ -76,6 +79,18 @@
       color: red;
     }
   }
+  &__sold {
+    opacity: 0.4;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &__foto {
+    width: 250px;
+    height: 250px;
+  }
 
   &__available {
     text-align: center;
@@ -88,6 +103,7 @@
     height:40px; 
     width: 150px;
     font-family: inherit;
+    letter-spacing: 2px;
     border: 1px solid red;
     cursor: pointer;
     transition: background-color 0.3s linear;
@@ -97,4 +113,30 @@
       border-color: #fff;;
     }
   }
+}
+
+.load {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  
+    &__content {
+      border-radius: 50%;
+      width: 2em;
+      height: 2em;
+      margin: 1em auto;
+      border: 0.3em solid #ddd;
+      border-left-color: #000;
+      animation: load8 1.2s infinite linear;
+    }
+  }
+  
+  @keyframes load8 {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
 }

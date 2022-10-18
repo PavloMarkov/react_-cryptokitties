@@ -11,6 +11,7 @@ import { Response } from '../../types/Response';
 import { Page } from '../../types/Page';
 import { CatList } from './CatList/CatList';
 import { DataOfPage } from '../../types/DataOfPage';
+import { ArrowUp } from '../ArrowUp/ArrowUp';
 
 export const MainContent: React.FC = () => {
   const [isPageLoading, setIsPageLoading] = useState(true);
@@ -71,7 +72,7 @@ export const MainContent: React.FC = () => {
 
   const sortClickHandle = () => {
     setIsListOfCatsLoading(true);
-    client.getDataFromServer<Response>(`?${searchSortParams}`)
+    client.getDataFromServer<Response>(`?${searchSortParams}&page=1&per_page=${pageData.catsPerPage}`)
       .then(res => {
         setListOfCats(res.cats);
         setPageData(prev => ({
@@ -89,6 +90,7 @@ export const MainContent: React.FC = () => {
       {!isListOfCatsLoading
         ? (
           <>
+            <ArrowUp />
             <ReactPaginate
               breakLabel="..."
               nextLabel=">"
@@ -155,18 +157,15 @@ export const MainContent: React.FC = () => {
                     id="per-page"
                     value={pageData.catsPerPage}
                   >
-                    <option value={50}>50</option>
                     <option value={20}>20</option>
+                    <option value={50}>50</option>
                     <option value={100}>100</option>
                   </select>
                 </label>
                 <button
                   type="button"
                   className="sort__btn"
-                  onClick={() => setPageData(prev => ({
-                    ...prev,
-                    currentPage: 0,
-                  }))}
+                  onClick={sortClickHandle}
                 >
                   View cats!
                 </button>

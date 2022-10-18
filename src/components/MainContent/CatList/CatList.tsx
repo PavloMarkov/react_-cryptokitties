@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-console */
 import React, { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Response } from '../../../types/Response';
@@ -6,6 +8,7 @@ import { CatCard } from '../../../types/CatCard';
 import './CatList.scss';
 import { DataOfPage } from '../../../types/DataOfPage';
 import { CatCardComponent } from '../CatCardComponent/CatCardComponent';
+import defaultImg from '../defaultPick.png';
 
 type Props = {
   list: CatCard[];
@@ -20,6 +23,8 @@ export const CatList: React.FC<Props> = ({
   const [listOfCatsToShow, setListOfCatsToShow] = useState(list);
   const [catId, setCatId] = useState(0);
 
+  // const FALLBACK_IMAGE = 'https://www.pngitem.com/pimgs/m/252-2529736_oops-hd-png-download.png';
+
   const setId = () => {
     setCatId(0);
   };
@@ -32,13 +37,23 @@ export const CatList: React.FC<Props> = ({
       });
   };
 
+  const imageOnErrorHandler = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>,
+  ) => {
+    event.currentTarget.src = defaultImg;
+  };
+
   return (
     <>
       <InfiniteScroll
         pageStart={pageData.currentPage}
         loadMore={loadMoreCats}
         hasMore={pageData.pageCount > addedPage}
-        loader={<div className="loader" key={0}>Loading ...</div>}
+        loader={(
+          <div className="load">
+            <div className="load__content" />
+          </div>
+        )}
       >
         <div className="card-list">
           {listOfCatsToShow.map(card => (
@@ -46,7 +61,7 @@ export const CatList: React.FC<Props> = ({
               className="card"
               key={card.id}
             >
-              <div className="card__info">
+              <div className={card.available ? 'card__info' : 'card__info card__sold'}>
                 <h1 className="card__name">{card.name}</h1>
                 <div className="card__img">
                   <div className="card__category">
@@ -55,6 +70,8 @@ export const CatList: React.FC<Props> = ({
                   <img
                     src={card.image_url}
                     alt={`Here should be cat ${card.name} & it's`}
+                    onError={imageOnErrorHandler}
+                    className="card__foto"
                   />
                   <div className="card__price">{`${card.price}$`}</div>
                   <button
@@ -62,7 +79,7 @@ export const CatList: React.FC<Props> = ({
                     className="card__available"
                     onClick={() => setCatId(card.id)}
                   >
-                    {`Now is ${card.available ? 'available' : 'not available'}`}
+                    {card.available ? 'available' : 'Sold'}
                   </button>
                 </div>
               </div>
