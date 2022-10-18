@@ -37,7 +37,16 @@
   }
   &__img {
     position: relative;
-    // background-image: url('https://www.cryptokitties.co/images/ether-diamond.gif');
+  }
+
+  &__foto {
+    width: 250px;
+    height: 250px;
+
+    @media (max-width: 760px) {
+      width: 200px;
+      height: 200px;
+      }
   }
 
   &__name {
@@ -85,11 +94,6 @@
     &:hover {
       opacity: 1;
     }
-  }
-
-  &__foto {
-    width: 250px;
-    height: 250px;
   }
 
   &__available {

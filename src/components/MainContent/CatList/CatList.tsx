@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-/* eslint-disable no-console */
 import React, { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Response } from '../../../types/Response';
@@ -22,8 +21,6 @@ export const CatList: React.FC<Props> = ({
   const [addedPage, setAddedPage] = useState(pageData.currentPage + 1);
   const [listOfCatsToShow, setListOfCatsToShow] = useState(list);
   const [catId, setCatId] = useState(0);
-
-  // const FALLBACK_IMAGE = 'https://www.pngitem.com/pimgs/m/252-2529736_oops-hd-png-download.png';
 
   const setId = () => {
     setCatId(0);
