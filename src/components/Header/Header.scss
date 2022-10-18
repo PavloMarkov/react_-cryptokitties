@@ -1,13 +1,13 @@
 .header {
   width: 100%;
   height: 80px;
-  background: rgb(255,255,0);
-  background: linear-gradient(109deg, rgba(255,255,0,1) 0%, rgba(103, 103, 203,1) 100%);
+  background: f3f3b2;
+  background: linear-gradient(109deg, #f3f3b2 0%, rgb(200, 200, 247) 100%);
   display: flex;
   justify-content: center;
   align-items: center;
   text-transform: uppercase;
-  color: #d5feff;
+  color: #3f27f6;
   font-weight: bold;
   font-size: 40px;
   letter-spacing: 3px;

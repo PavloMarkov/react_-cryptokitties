@@ -21,6 +21,5 @@ function request<T>(
 }
 
 export const client = {
-  getSorted: <Response>(UIdata: string) => request<Response>(UIdata),
-  getPaginated: <Response>(UIdata: string) => request<Response>(UIdata),
+  getDataFromServer: <Response>(UIdata: string) => request<Response>(UIdata),
 };

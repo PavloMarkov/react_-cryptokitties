@@ -1,10 +1,68 @@
 
 .sort {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+
+  @media (max-width: 760px) {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+
+    & label {
+      @media (max-width: 760px) {
+        font-size: 12px;
+      }
+    }
+  }
 
   &__title {
     margin: 0;
+  }
+
+  &__select {
+    border: 1px solid blue;
+    border-radius: 4px;
+    display: inline-block;
+    font: inherit;
+    padding: 5px;
+    background-color: inherit;
+
+    @media (max-width: 760px) {
+      font-size: 10px;
+    }
+  }
+
+  &__btn {
+    background-color:#f98dca;
+    color: #000;
+    border-radius:10px; 
+    padding: 5px;
+    height:40px; 
+    width: 80px;
+    font-family: inherit;
+    border: 1px solid red;
+    transition: background-color 0.3s linear;
+    cursor: pointer;
+
+    @media (max-width: 760px) {
+      font-size: 12px;
+      padding: 3px;
+      height:30px; 
+      width: 70px;
+    }
+
+    &:hover {
+      background-color: rgb(250, 0, 0)
+    }
   }
 }
 
@@ -12,22 +70,41 @@
   &__container{
     display: flex;
     justify-content: center;
+    align-items: center;
     list-style: none;
     padding: 0;
 }
 
   &__page {
       border: 1px solid #dcdcdc;
+      text-align: center;
       border-radius: 6px;
       margin-right: 10px;
       width: 50px;
       height: 40px;
       cursor: pointer;
 
+      @media (max-width: 760px) {
+        font-size: 12px;
+        width: 30px;
+        height: 20px;
+        border-radius: 10px;
+        margin-right: 3px;
+      }
+
+      &:hover {
+        color: #f98dca;
+        border-color: #f98dca;
+      }
+
       & a {
         display: block;
         padding: 10px;
         text-align: center;
+
+        @media (max-width: 760px) {
+          padding: 3px;
+        }
       }
   }
 
@@ -36,8 +113,12 @@
   }
 
   &__active {
-    border: 2px solid #000;
+    border: 2px solid red;
     font-weight: bold;
+
+    & a {
+      color: red;
+    }
   }
 
   &__link {
@@ -51,6 +132,7 @@
   }
 }
 
+.next,
 .previous {
   border: 1px solid #dcdcdc;
   border-radius: 6px;
@@ -59,28 +141,26 @@
   height: 40px;
   cursor: pointer;
 
+  &:hover {
+    color: #f98dca;
+    border-color: #f98dca;
+  }
+
+  @media (max-width: 760px) {
+    font-size: 12px;
+    width: 30px;
+    height: 20px;
+    border-radius: 10px;
+    margin-right: 3px;
+  }
+
   & a {
     display: block;
     padding: 10px;
     text-align: center;
+
+    @media (max-width: 760px) {
+      padding: 3px;
+    }
   }
 }
-
-.next {
-  border: 1px solid #dcdcdc;
-  border-radius: 6px;
-  margin-right: 10px;
-  cursor: pointer;
-  width: 70px;
-  height: 40px;
-
-  & a {
-    display: block;
-    padding: 10px;
-    text-align: center;
-  }
-}
-
-// .selected {
-//   color: red;
-// }

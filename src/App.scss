@@ -12,21 +12,5 @@
     @media (max-width: 768px) {
       flex-direction: column;
     }
-
-    // & ul {
-    //   margin: 0;
-    //   list-style-type: none;
-    // }
-  }
-
-  &__sort {
-    padding: 20px;
-    position: fixed;
-    top: 80px;
-    left: 0;
-
-    @media (max-width: 760px){
-      position: static;
-    }
   }
 }
